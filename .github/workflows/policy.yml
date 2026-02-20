@@ -1,8 +1,7 @@
 name: Policy
 
 on:
-  pull_request:
-    types: [opened, edited, synchronize, reopened, ready_for_review]
+  workflow_call:
 
 permissions:
   pull-requests: read
@@ -22,9 +21,6 @@ jobs:
 
           text="${PR_TITLE}"$'\n'"${PR_BODY:-}"
 
-          # Accept any of these patterns:
-          # - "Closes #123" / "Fixes #123" / "Resolves #123"
-          # - bare "#123" anywhere
           if echo "$text" | grep -Eiq '((close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)[[:space:]]*#[0-9]+)|(^|[^A-Za-z0-9_])#[0-9]+'; then
             echo "✅ Issue reference found."
             exit 0
